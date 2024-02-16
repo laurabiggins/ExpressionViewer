@@ -361,21 +361,7 @@
                           "workflow. The relationship between samples at the ", 
                           "global level is visualised through PCA (using all ", 
                           "samples or tissue means), tSNE and UMAP projections.")),
-                 
-                 # p(paste0("For the single cell RNA-seq analysis, Tregs were ", 
-                 #          "flow sorted from Foxp3Thy1.1 reporter mice, ", 
-                 #          "pre-injected with anti-CD45 via intravenous ", 
-                 #          "delivery. Cells were purified from blood, kidney, ", 
-                 #          "liver, pancreas and LPLs from the gut. Purified ", 
-                 #          "cells were CD4+Foxp3Thy1.1+ as well as negative for ", 
-                 #          "intravenous CD45 labelling and for the exclusion ", 
-                 #          "markers CD19, CD11b, CD8 and F4/80. Cells were ", 
-                 #          "labelled with Hastag TotalSeq and loaded onto the ", 
-                 #          "10x Chromium Controller with sequencing performed ", 
-                 #          "on Illumina HiSeq. Single cell data is visually ", 
-                 #          "presented as tSNE and UMAP projections, with each ", 
-                 #          "tissue origin labelled a different colour.")),
-                 
+
                  p(paste0("Plots may be downloaded by right clicking the ",
                           "plot and selecting 'Save image as...'")),
                  
@@ -422,12 +408,7 @@
                    )
                  ),
                  
-                 hr(),
-                 
-                 # h4("Single cell RNA-seq data"),
-                 # 
-                 # p("Will be available soon")
-                 
+                 hr()
         )
       },
       
@@ -1246,26 +1227,6 @@
           p(
             HTML(
               paste0("Leukocytes were isolated from the perfused tissues of mice aged 8 to 100 weeks, stained for flow cytometry and acquired on a BD FACSymphony. ", tSNSE_info_text)
-              # paste0(
-              #   "Leukocytes were isolated from the perfused tissues of mice aged 8 to 100 weeks, stained for flow cytometry and acquired on a BD FACSymphony. The panel included the markers CD103, CD4, CD45, CD62L, CD8a, CD152 (CTLA-4), CD25, CD44, ICOS, CD3, PD-1, CD19, KLRG1, TCR-beta, CD304 (Neuropilin), T-bet, Helios, CD69, NK1.1, ST2, Foxp3, Ki67 and viability. Tregs were gated as viable CD45", 
-              # tags$sup("+"), 
-              # " CD3",
-              # tags$sup("+"),
-              # " CD4",
-              # tags$sup("+"), 
-              # " TCR",
-              # tags$sup("-"),
-              # " beta",
-              # tags$sup("+"),
-              # " Foxp3",
-              # tags$sup("+"), 
-              # " CD8",
-              # tags$sup("-"),
-              # " CD19",
-              # tags$sup("-"),
-              # " lymphocytes, and the tSNE analysis was performed on CD103, CTLA-4, CD25, CD44, ICOS, PD-1, KLRG1, Neuropilin, T-bet, Helios, CD69, ST2 and Ki67 using the Cross-Entropy test script in R. The script is ",
-              # a("available from GitHub,", href = 'https://github.com/AdrianListon/Cross-Entropy-test/tree/main', target = "_blank", .noWS = "outside")
-              #)
             )
           ),
           hr(),
@@ -1724,97 +1685,6 @@
         )
         
       })
-      
-      #old button code
-      {
-        # #all CD4s
-        # observeEvent(input$Group1SelectTconv, {
-        #   
-        #   updateSelectInput(session = session,
-        #                     inputId = "Group1",
-        #                     label = "Contrast Group 1",
-        #                     choices = list(
-        #                       CD4s = results_names[
-        #                         grepl(pattern = "cellTypeNT",
-        #                               x = results_names,
-        #                               ignore.case = T) & !(results_names %in%
-        #                                                      input$Group2)],
-        #                       Tregs = results_names[
-        #                         grepl(pattern = "cellTypeT",
-        #                               x = results_names,
-        #                               ignore.case = T) & !(results_names %in%
-        #                                                      input$Group2)]
-        #                     ),
-        #                     selected = c(input$Group1, results_names[
-        #                       grepl(pattern = "cellTypeNT",
-        #                             x = results_names,
-        #                             ignore.case = T) & !(results_names %in%
-        #                                                    input$Group2)])
-        #   )
-        #   
-        # })
-        # 
-        # #all Tregs
-        # observeEvent(input$Group1SelectTregs, {
-        #   
-        #   updateSelectInput(session = session,
-        #                     inputId = "Group1",
-        #                     label = "Contrast Group 1",
-        #                     choices = list(
-        #                       CD4s = results_names[
-        #                         grepl(pattern = "cellTypeNT",
-        #                               x = results_names,
-        #                               ignore.case = T) & !(results_names %in%
-        #                                                      input$Group2)],
-        #                       Tregs = results_names[
-        #                         grepl(pattern = "cellTypeT",
-        #                               x = results_names,
-        #                               ignore.case = T) & !(results_names %in%
-        #                                                      input$Group2)]
-        #                     ),
-        #                     selected = c(input$Group1, results_names[
-        #                       grepl(pattern = "cellTypeT",
-        #                             x = results_names,
-        #                             ignore.case = T) & !(results_names %in%
-        #                                                    input$Group2)])
-        #   )
-        #   
-        # })
-        # 
-        # #all remaining
-        # # observeEvent(input$Group1SelectAll, {
-        # #   
-        # #   updateSelectInput(session = session,
-        # #                     inputId = "Group1",
-        # #                     label = "Contrast Group 1",
-        # #                     choices = list(
-        # #                       CD4s = results_names[
-        # #                         grepl(pattern = "cellTypeNT",
-        # #                               x = results_names,
-        # #                               ignore.case = T) & !(results_names %in%
-        # #                                                      input$Group2)],
-        # #                       Tregs = results_names[
-        # #                         grepl(pattern = "cellTypeT",
-        # #                               x = results_names,
-        # #                               ignore.case = T) & !(results_names %in%
-        # #                                                      input$Group2)]
-        # #                     ),
-        # #                     selected = c(input$Group1, results_names[
-        # #                       grepl(pattern = "cellTypeNT",
-        # #                             x = results_names,
-        # #                             ignore.case = T) & !(results_names %in%
-        # #                                                    input$Group2)], 
-        # #                       results_names[
-        # #                         grepl(pattern = "cellTypeT",
-        # #                               x = results_names,
-        # #                               ignore.case = T) & !(results_names %in%
-        # #                                                      input$Group2)])
-        # #   )
-        # #   
-        # # })
-        # 
-      }
-      
     }
     
     #update available samples in contrast group 2 selection buttons
@@ -1973,97 +1843,7 @@
         )
         
       })
-      
-      #old button code
-      {
-        # #all CD4s
-        # observeEvent(input$Group2SelectTconv, {
-        #   
-        #   updateSelectInput(session = session,
-        #                     inputId = "Group2",
-        #                     label = "Contrast Group 2",
-        #                     choices = list(
-        #                       CD4s = results_names[
-        #                         grepl(pattern = "cellTypeNT",
-        #                               x = results_names,
-        #                               ignore.case = T) & !(results_names %in%
-        #                                                      input$Group1)],
-        #                       Tregs = results_names[
-        #                         grepl(pattern = "cellTypeT",
-        #                               x = results_names,
-        #                               ignore.case = T) & !(results_names %in%
-        #                                                      input$Group1)]
-        #                     ),
-        #                     selected = c(input$Group2, results_names[
-        #                       grepl(pattern = "cellTypeNT",
-        #                             x = results_names,
-        #                             ignore.case = T) & !(results_names %in%
-        #                                                    input$Group1)])
-        #   )
-        #   
-        # })
-        # 
-        # #all Tregs
-        # observeEvent(input$Group2SelectTregs, {
-        #   
-        #   updateSelectInput(session = session,
-        #                     inputId = "Group2",
-        #                     label = "Contrast Group 2",
-        #                     choices = list(
-        #                       CD4s = results_names[
-        #                         grepl(pattern = "cellTypeNT",
-        #                               x = results_names,
-        #                               ignore.case = T) & !(results_names %in%
-        #                                                      input$Group1)],
-        #                       Tregs = results_names[
-        #                         grepl(pattern = "cellTypeT",
-        #                               x = results_names,
-        #                               ignore.case = T) & !(results_names %in%
-        #                                                      input$Group1)]
-        #                     ),
-        #                     selected = c(input$Group2, results_names[
-        #                       grepl(pattern = "cellTypeT",
-        #                             x = results_names,
-        #                             ignore.case = T) & !(results_names %in%
-        #                                                    input$Group1)])
-        #   )
-        #   
-        # })
-        # 
-        # #all remaining
-        # # observeEvent(input$Group2SelectAll, {
-        # #   
-        # #   updateSelectInput(session = session,
-        # #                     inputId = "Group2",
-        # #                     label = "Contrast Group 2",
-        # #                     choices = list(
-        # #                       CD4s = results_names[
-        # #                         grepl(pattern = "cellTypeNT",
-        # #                               x = results_names,
-        # #                               ignore.case = T) & !(results_names %in%
-        # #                                                      input$Group1)],
-        # #                       Tregs = results_names[
-        # #                         grepl(pattern = "cellTypeT",
-        # #                               x = results_names,
-        # #                               ignore.case = T) & !(results_names %in%
-        # #                                                      input$Group1)]
-        # #                     ),
-        # #                     selected = c(input$Group2, results_names[
-        # #                       grepl(pattern = "cellTypeNT",
-        # #                             x = results_names,
-        # #                             ignore.case = T) & !(results_names %in%
-        # #                                                    input$Group1)], 
-        # #                       results_names[
-        # #                         grepl(pattern = "cellTypeT",
-        # #                               x = results_names,
-        # #                               ignore.case = T) & !(results_names %in%
-        # #                                                      input$Group1)])
-        # #   )
-        # #   
-        # # })
-        # 
-      }
-      
+
     }
     
     #enabling / disabling UI elements
@@ -2254,16 +2034,8 @@
                                       plain = F
                         ),
                         editable = F, 
-                        rownames = F) #%>% 
-          # DT::formatRound(columns = c("Mean.Counts"),
-          #                 digits = 2,
-          #                 mark = "") %>%
-          # DT::formatRound(columns = c("log2.Fold.Change"),
-          #                 digits = 3,
-          #                 mark = "") %>%
-          # DT::formatSignif(columns = c("Adjusted.p.value"),
-          #                  digits = 3,
-          #                  mark = "")
+                        rownames = F)
+         
         })
         
         #used for updating DataTable values for the 'Selected' column
@@ -2290,14 +2062,6 @@
         #options(warn = -1) 
         
         #generating the ggplotly plot
-        # output$res_volplot <- renderPlotly({
-        #   GenerateVolcanoPlot(plot_data = isolate(global_data$result),
-        #                       names_group1 = names_group1,
-        #                       names_group2 = names_group2, 
-        #                       format = tolower(isolate(input$SavePlotFormat)), 
-        #                       width = isolate(input$WidthPixels), 
-        #                       height = isolate(input$HeightPixels)
-        #                       )
         p <- GenerateVolcanoPlot(plot_data = isolate(global_data$result),
                                  names_group1 = names_group1,
                                  names_group2 = names_group2, 
@@ -2597,18 +2361,6 @@
         global_data$trace_count <- global_data$base_traces-1
         #print(global_data$trace_count)
       }
-      # if(global_data$trace_count > 2){
-      #   plotlyProxy(outputId = "res_volplot", session = session) %>% 
-      #     plotlyProxyInvoke("deleteTraces", 
-      #                       #as.list(c(2:global_data$trace_count))
-      #                       as.list(c(3:global_data$trace_count))
-      #                       # as.list(c(
-      #                       #   (global_data$trace_count-1):global_data$trace_count))
-      #     )
-      #   
-      #   global_data$trace_count <- 2
-      # }
-      
     })
     
     
@@ -2693,20 +2445,7 @@
           proxy %>% selectRows(as.numeric(
             union(volplot_selected$key, already_selected)))
         }
-        # else if(length(volplot_selected$key) > 0 &
-        #         length(already_selected) < 1){
-        #   proxy %>% selectRows(as.numeric(volplot_selected$key))
-        # }
-        # else{
-        #   print("entering 'else' block")
-        #   proxy %>% selectRows(NULL)
-        # }
-        
       }
-      
-      #volplot_selected <- NULL
-      #print(isolate(global_data$trace_count))
-      
     })
     
     
