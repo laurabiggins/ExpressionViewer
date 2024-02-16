@@ -1039,6 +1039,62 @@
         )
       },
       
+      # Tissue expression panel ----
+      {
+        tabPanel(
+          title = "Tissue expression", 
+          value = "TissueExpression", 
+          h3("Expression heat maps"),
+          p(HTML(expr_heat_map_text)),
+          hr(),
+          fluidRow(
+            column(
+              width = 2,
+              selectizeInput(
+                inputId = "heatmapTissue", 
+                label = "Select Tissue", 
+                choices = aging_tsne_tissues,
+                #selectize = T, 
+                multiple = FALSE, 
+                options = list(
+                  placeholder = "Click to select")
+              ),
+            ),
+            column(
+              width = 2, 
+              offset = 1,
+              br(),
+              downloadButton(
+                outputId = "DownloadHeatmapsTissue", 
+                label = "Selected Tissue"
+              )
+            ),
+            column(
+              width = 1,
+              br(),
+              downloadButton(
+                outputId = "DownloadHeatmapsAll", 
+                label = "All Tissues"
+              )
+            )
+          ),
+          fluidRow(
+            column(
+              width = 12,
+              radioButtons(
+                "whichHeatmap", 
+                choices = list(
+                  "Heatmap - most expressed genes" = "most_expr",
+                  "Heatmap - differentially-expressed genes vs blood" = "diff_expr"
+                ),
+                label = NULL,
+                inline = TRUE
+              )
+            )
+          )
+        )
+      },
+ 
       # Pathway analysis panel ----
       {
         tabPanel(title = "Pathway Analysis", value = "PathwayAnalysis", 
