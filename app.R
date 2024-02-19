@@ -1065,7 +1065,7 @@
               offset = 1,
               br(),
               downloadButton(
-                outputId = "DownloadHeatmapsTissue", 
+                outputId = "DownloadHeatmapsTissue", # this doesn't do anything yet
                 label = "Selected Tissue"
               )
             ),
@@ -1073,7 +1073,7 @@
               width = 1,
               br(),
               downloadButton(
-                outputId = "DownloadHeatmapsAll", 
+                outputId = "DownloadHeatmapsAll", # this doesn't do anything yet
                 label = "All Tissues"
               )
             )
@@ -1194,13 +1194,110 @@
         
       },
       
-      #Single Cell Expression panel
-      # {
-      #   tabPanel(title = "Single Cell Expression", value = "SingleCellExprs", 
-      #            
-      #            )
-      # },
+      # Genetic Perturbation panel ----
       
+      {
+        tabPanel(
+          title = "Genetic Perturbation", 
+          value = "GeneticPerturbation", 
+          h3("Effect of genetic perturbation on tissue Treg phenotype"),
+          p(HTML(genetic_perturbation_text)),
+          hr(),
+          navlistPanel(widths=c(2,10),
+            tabPanel(
+              "Cellular phenotype", 
+              br(),
+              fluidRow(
+                column(
+                  width = 3,
+                  selectizeInput(
+                    inputId = "geneticPertCellularPhenotype", 
+                    label = "Select genetic perturbation", 
+                    choices = "populate this",
+                    multiple = FALSE, 
+                    options = list(
+                      placeholder = "Click to select")
+                  ),
+                ),
+                column(
+                  width = 3,
+                  selectizeInput(
+                    inputId = "tissueCellularPhenotype", 
+                    label = "Select tissue", 
+                    choices = "populate this",
+                    multiple = FALSE, 
+                    options = list(
+                      placeholder = "Click to select")
+                  ),
+                ),
+                column(
+                  width = 2, 
+                  offset = 1,
+                  br(),
+                  downloadButton(
+                    outputId = "DownloadCellularPhenotype", # this doesn't do anything yet
+                    label = "Selected Tissue"
+                  )
+                ),
+                column(
+                  width = 2,
+                  br(),
+                  downloadButton(
+                    outputId = "DownloadCellularPhenotypeAll", # this doesn't do anything yet
+                    label = "All Tissues"
+                  )
+                )
+              )
+            ),
+            tabPanel(
+              "Marker Expression", 
+              br(),
+              fluidRow(
+                column(
+                  width = 3,
+                  selectizeInput(
+                    inputId = "geneticPertMarker", 
+                    label = "Select genetic perturbation", 
+                    choices = "populate this",
+                    multiple = FALSE, 
+                    options = list(
+                      placeholder = "Click to select")
+                  ),
+                ),
+                column(
+                  width = 3,
+                  selectizeInput(
+                    inputId = "marker", 
+                    label = "Select marker", 
+                    choices = "populate this",
+                    multiple = FALSE, 
+                    options = list(
+                      placeholder = "Click to select")
+                  ),
+                ),
+                column(
+                  width = 2, 
+                  offset = 1,
+                  br(),
+                  downloadButton(
+                    outputId = "DownloadMarker", # this doesn't do anything yet
+                    label = "Selected Marker"
+                  )
+                ),
+                column(
+                  width = 2,
+                  br(),
+                  downloadButton(
+                    outputId = "DownloadMarkerAll", # this doesn't do anything yet
+                    label = "All Markers"
+                  )
+                )
+              )
+            )
+          )
+        )
+      },
+          
       # TCR panel ----
       {
         tabPanel(title = "TCR Repertoire", value = "TCR", 
