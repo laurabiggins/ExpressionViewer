@@ -2023,32 +2023,21 @@
     
     
     #generating contrasts via the DESeq2 results() function
-    ## Generate contrasts event ----
+    :## Generate contrasts event ----
     observeEvent(input$GenContrasts, {
       
-      cat("running generate contrasts...")
+      cat("observed event - input$GenContrasts...")
       
-      #splash alert for the user informing them that the analysis may take some 
-      # time
-      # if(!global_data$first_run_done){
-      # sendSweetAlert(session = session, 
-      #                title = "Computing contrasts", 
-      # text = paste0("The computation may take some time during ",
-      #               "which the tool may appear to not be doing ",
-      #               "anything. Once the results are computed ",
-      #               "they will populate the tab."),
-      #                type = "info")
-                  
-      shinyalert(title = "Computing contrasts,\nplease wait...",
-                 text = paste0("The contrasts may take some time to compute.\n",
-                               "The results will populate the tab once ready."),
-                 type = "info",
-                 animation = F, #"slide-from-bottom",
-                 inputId = "AlertFirstRunDone",
-                 showCancelButton = FALSE,
-                 showConfirmButton = FALSE,
-                 closeOnEsc = FALSE,
-                 closeOnClickOutside = FALSE)
+      # shinyalert(title = "Computing contrasts,\nplease wait...",
+      #            text = paste0("The contrasts may take some time to compute.\n",
+      #                          "The results will populate the tab once ready."),
+      #            type = "info",
+      #            animation = F, #"slide-from-bottom",
+      #            inputId = "AlertFirstRunDone",
+      #            showCancelButton = FALSE,
+      #            showConfirmButton = FALSE,
+      #            closeOnEsc = FALSE,
+      #            closeOnClickOutside = FALSE)
       
       
       
@@ -2083,6 +2072,8 @@
         tpc_filtered_list <- filtered_genes_lists[[paste0("Filt", 
                                                           input$TPCFilt)]]
       }
+      
+      cat("About to run the GenerateContrasts function")
       
       #performing the contrast
       result <- GenerateContrasts(DESeq_object = DESeq_object,
@@ -2262,7 +2253,7 @@
       
       #remove popup shinyalert from earlier using second alert with immediate 
       # set to TRUE
-      closeAlert()
+      #closeAlert(id="AlertFirstRunDone")
       # shinyalert(title = "Computation Complete", 
       #            text = paste0("Results are being populated"), 
       #            type = "info", 
@@ -2275,6 +2266,9 @@
       #            closeOnClickOutside = FALSE)
       
     })
+    
+    
+    
     ## end of generate contrasts observeEvent ----
     
     #generating bar plot of normalised counts for the genes of the rows selected
