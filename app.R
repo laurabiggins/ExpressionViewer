@@ -98,9 +98,15 @@
     }
     
     ## flow repository IDs ----
+    
+    FlowRepID <- c(
+      '<a href="http://flowrepository.org/id/FR-FCM-Z6L9" target="_blank">FR-FCM-Z6L9</a>',
+      '<a href="http://flowrepository.org/id/FR-FCM-Z6LT" target="_blank">FR-FCM-Z6LT</a>'
+    )
+    
     flow_data_ids <- tibble::tibble(
       Dataset = c("Ageing", "Microbiome"), 
-      `FlowRepository ID` = c("FR-FCM-Z6L9", "FR-FCM-Z6LT")
+      `FlowRepository ID` = FlowRepID
     )
     
     ## tSNE info text ----
@@ -262,6 +268,7 @@
     
     # App title ----
     titlePanel("The Tissue Treg Project"),
+    actionButton("browser", "browser"),
     
     tabsetPanel(
       
@@ -287,8 +294,9 @@
             h4("Flow cytometry data are available for download on FlowRepository using the details below."),
             DT::datatable(
               flow_data_ids,
+              escape   = FALSE,
               rownames = FALSE, 
-              options = list(dom = "t")
+              options  = list(dom = "t")
             )
           ), 
           column(
