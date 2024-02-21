@@ -2023,7 +2023,7 @@
     
     
     #generating contrasts via the DESeq2 results() function
-    :## Generate contrasts event ----
+    ## Generate contrasts event ----
     observeEvent(input$GenContrasts, {
       
       cat("observed event - input$GenContrasts...")
