@@ -9,80 +9,6 @@ GenerateContrasts <- function(DESeq_object,
                               tpc_filtered_list = NULL
                               ){
   
-  #print(group1)
-  #print(group2)
-  
-  # if(length(group1) < 1 & length(group2) < 1){
-  #   return("Error: No elements were selected to draw contrasts.")
-  # }
-  # else if (length(group2) >= 1 & length(group1) < 1){
-  #   return("Error: Please also select elements in contrast group 1.")
-  # }
-  # else if (length(group1) >= 1 & length(group2) < 1){
-  #   return("Error: Please also select elements in contrast group 2.")
-  # }
-  # else if(length(intersect(group1, group2)) >1){
-  #   return(paste0("Error: The groups to draw the contrasts should not ", 
-  #                 "contain any overlaps."))
-  # }
-  # else if(length(group1) == 1 & length(group2) < 1){
-  #   
-  #   result <- as.data.frame(results(object = DESeq_object,
-  #                                   test = "Wald",
-  #                                   name = group1,
-  #                                   cooksCutoff = F,
-  #                                   independentFiltering = F,
-  #                                   parallel = T)
-  #                           )
-  #   
-  #   result$ensembl_gene_id <- gsub(pattern = "\\.[0-9]+$", replacement = "",
-  #                            x = rownames(result),
-  #                            ignore.case = T)
-  #   
-  #   result <- merge(x = meta_data, y = result, 
-  #                   by = "ensembl_gene_id", all.x = F, all.y = T)
-  #   
-  #   rownames(result)  <- c(1:nrow(result))
-  #   
-  #   colnames(result) <- c("Gene.ID", "Gene.Symbol", "Description", 
-  #                         "Mean.Counts", "log2.Fold.Change", "Standard.Error", 
-  #                         "Statistic", "p.value", "Adjusted.p.value")
-  #   
-  #   return(result[result$Mean>0,])
-  # }
-  # # else if (length(group2) < 1 & length(group1) > 1){
-  # #   
-  # #   result <- as.data.frame(results(object = DESeq_object, 
-  # #                                   test = "Wald", 
-  # #                                   contrast = list(group1[1], group1[-1]),
-  # #                                   listValues = c(1, -1/(length(group1)-1)), 
-  # #                                   cooksCutoff = F, 
-  # #                                   independentFiltering = F, 
-  # #                                   parallel = T))
-  # #   
-  # #   result$ensembl_gene_id <- gsub(pattern = "\\.[0-9]+$", replacement = "",
-  # #                                  x = rownames(result),
-  # #                                  ignore.case = T)
-  # #   
-  # #   result <- merge(x = meta_data, y = result, 
-  # #                   by = "ensembl_gene_id", all.x = F, all.y = T)
-  # #   
-  # #   rownames(result)  <- c(1:nrow(result))
-  # #   
-  # #   colnames(result) <- c("Gene.ID", "Gene.Symbol", "Description", "Mean", 
-  # #                         "log2.Fold.Change", "Standard.Error", "Statistic", 
-  # #                         "p.value", "Adjusted.p.value")
-  # #   
-  # #   return(
-  # #     list(paste0("Warning: More than one element was selected in a single ", 
-  # #                 "group. The contrast has been drawn between the first ",
-  # #                 "element and the remaining elements of the selection."),
-  # #          result[result$Mean>0,]
-  # #          )
-  # #     )
-  # # }
-  # else{
-    
     result <- as.data.frame(results(object = DESeq_object, 
                                     test = "Wald", 
                                     contrast = list(group1, group2),
@@ -90,7 +16,7 @@ GenerateContrasts <- function(DESeq_object,
                                                    -1/length(group2)), 
                                     cooksCutoff = F, 
                                     independentFiltering = F, 
-                                    parallel = T))
+                                    parallel = FALSE))
     
     #calculating actual log2 FC for filtering uncalculable genes
     {
