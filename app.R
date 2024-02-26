@@ -40,7 +40,13 @@
     #deseq2 object
     DESeq_object <- readRDS(file = "data/DESeq_Object.rds")
     flow_data_ids <- readRDS(file = "data/flow_data_ids.rds")
+    tissue_heatmap_files <- readRDS("data/tissue_heatmap_files.rds")
+    which_heatmap_choices <- list(
+        "Heatmap - most expressed genes" = names(tissue_heatmap_files)[[1]],
+        "Heatmap - differentially-expressed genes vs blood" = names(tissue_heatmap_files)[[2]]
+    )
     
+        
     #formatting names for available contrasts
     results_names <- resultsNames(DESeq_object)
     #print(results_names)
@@ -1044,47 +1050,35 @@
           hr(),
           fluidRow(
             column(
-              width = 2,
+              width = 4,
+              selectizeInput(
+                "whichHeatmap", 
+                label=NULL,
+                choices = which_heatmap_choices,
+                multiple = FALSE,
+                selected = 1
+              ),
               selectizeInput(
                 inputId = "heatmapTissue", 
                 label = "Select Tissue", 
-                choices = aging_tsne_tissues,
+                choices = tissue_heatmap_files[[1]],
                 #selectize = T, 
                 multiple = FALSE, 
                 options = list(
                   placeholder = "Click to select")
               ),
-            ),
-            column(
-              width = 2, 
-              offset = 1,
-              br(),
               downloadButton(
-                outputId = "DownloadHeatmapsTissue", # this doesn't do anything yet
+                outputId = "DownloadHeatmapTissue", # this doesn't do anything yet
                 label = "Selected Tissue"
-              )
-            ),
-            column(
-              width = 1,
-              br(),
+              ),
               downloadButton(
-                outputId = "DownloadHeatmapsAll", # this doesn't do anything yet
+                outputId = "DownloadHeatmapAll", # this doesn't do anything yet
                 label = "All Tissues"
               )
-            )
-          ),
-          fluidRow(
+            ),
             column(
-              width = 12,
-              radioButtons(
-                "whichHeatmap", 
-                choices = list(
-                  "Heatmap - most expressed genes" = "most_expr",
-                  "Heatmap - differentially-expressed genes vs blood" = "diff_expr"
-                ),
-                label = NULL,
-                inline = TRUE
-              )
+              width = 8,
+              imageOutput(outputId = "Tissue_heatmap")
             )
           )
         )
@@ -2642,9 +2636,69 @@
         )
       
     })
+ 
+    
+   
+    # choices = list(
+    #   "Heatmap - most expressed genes" = "most_expr",
+    #   "Heatmap - differentially-expressed genes vs blood" = "diff_expr"),   
+    
+    # Tissue expression heatmaps ----
+    observeEvent(input$whichHeatmap, {
+
+      updateSelectizeInput(
+        inputId = "heatmapTissue", 
+        choices = tissue_heatmap_files[[input$whichHeatmap]]
+      )
+    })
+    
+    tissue_heatmap_img <- function(filename){
+      img <- readPNG(source = filename, native = T, info = T)
+      list(
+        src = filename, 
+        contentType = 'image/png', 
+        width = dim(img)[2]*1, 
+        height = dim(img)[1]*1
+      )
+    }
+
+    output$Tissue_heatmap <- renderImage(
+      expr = tissue_heatmap_img(input$heatmapTissue), deleteFile = FALSE
+    )
+    
+    ## download heatmaps ----
+    
+    output$DownloadHeatmapTissue <- downloadHandler(
+      
+      filename = function() {
+        paste0(basename(input$heatmapTissue), ".zip")
+      },
+      content = function(file){
+        
+        zip(
+          zipfile = file,
+          files = input$heatmapTissue,
+          flags = "-j"
+        )
+      }, contentType = "application/zip"
+    )
     
     
-    #display PCA, t-SNE and UMAP plots
+    output$DownloadHeatmapAll <- downloadHandler(
+      filename = function() {
+        paste0(input$whichHeatmap, "_all_heatmaps.zip")
+      },
+      content = function(file){
+        
+        zip(zipfile = file, 
+            files =  unlist(tissue_heatmap_files[[input$whichHeatmap]]), 
+            flags = "-j")
+        
+      },
+      contentType = "application/zip"
+    )
+
+    # display PCA, t-SNE and UMAP plots ----
     observeEvent(input$TriplePlot, {
       
       output$PCAplot1 <- NULL
