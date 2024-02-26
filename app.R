@@ -26,6 +26,7 @@
     library(shinyWidgets)
     library(shinycssloaders)
     library(png)
+    library(jpeg)
     library(htmltools)
     #library(shinythemes)
     #library(shinydashboard)
@@ -45,7 +46,7 @@
         "Heatmap - most expressed genes" = names(tissue_heatmap_files)[[1]],
         "Heatmap - differentially-expressed genes vs blood" = names(tissue_heatmap_files)[[2]]
     )
-    
+    genetic_perturbations <- readRDS("data/genetic_perturbations.rds")
         
     #formatting names for available contrasts
     results_names <- resultsNames(DESeq_object)
@@ -1202,7 +1203,7 @@
                   selectizeInput(
                     inputId = "geneticPertCellularPhenotype", 
                     label = "Select genetic perturbation", 
-                    choices = "populate this",
+                    choices = names(genetic_perturbations$cell_phenotype),
                     multiple = FALSE, 
                     options = list(
                       placeholder = "Click to select")
@@ -1213,7 +1214,7 @@
                   selectizeInput(
                     inputId = "tissueCellularPhenotype", 
                     label = "Select tissue", 
-                    choices = "populate this",
+                    choices = "",
                     multiple = FALSE, 
                     options = list(
                       placeholder = "Click to select")
@@ -1225,7 +1226,7 @@
                   br(),
                   downloadButton(
                     outputId = "DownloadCellularPhenotype", # this doesn't do anything yet
-                    label = "Selected Tissue"
+                    label = "Selected Option"
                   )
                 ),
                 column(
@@ -1233,9 +1234,15 @@
                   br(),
                   downloadButton(
                     outputId = "DownloadCellularPhenotypeAll", # this doesn't do anything yet
-                    label = "All Tissues"
+                    label = "All Data"
                   )
                 )
+              ),
+              fluidRow(
+                  imageOutput(outputId = "cell_phenotype_tSNE")
+                ),
+              fluidRow(
+                imageOutput(outputId = "cell_phenotype_hist")
               )
             ),
             tabPanel(
@@ -1247,7 +1254,7 @@
                   selectizeInput(
                     inputId = "geneticPertMarker", 
                     label = "Select genetic perturbation", 
-                    choices = "populate this",
+                    choices = names(genetic_perturbations$marker_expression),
                     multiple = FALSE, 
                     options = list(
                       placeholder = "Click to select")
@@ -1258,7 +1265,7 @@
                   selectizeInput(
                     inputId = "marker", 
                     label = "Select marker", 
-                    choices = "populate this",
+                    choices = "",
                     multiple = FALSE, 
                     options = list(
                       placeholder = "Click to select")
@@ -1281,6 +1288,16 @@
                     label = "All Markers"
                   )
                 )
+              ),
+              fluidRow(
+                column(
+                  width = 4,
+                  imageOutput(outputId = "marker_overlay")
+                ),
+                column(
+                  width = 8,
+                  imageOutput(outputId = "marker_heatmap")
+                )      
               )
             )
           )
@@ -2637,12 +2654,6 @@
       
     })
  
-    
-   
-    # choices = list(
-    #   "Heatmap - most expressed genes" = "most_expr",
-    #   "Heatmap - differentially-expressed genes vs blood" = "diff_expr"),   
-    
     # Tissue expression heatmaps ----
     observeEvent(input$whichHeatmap, {
 
@@ -2697,6 +2708,108 @@
       },
       contentType = "application/zip"
     )
+
+    # Genetic perturbation ----
+    ## Cellular phenotype ----
+
+    observeEvent(input$geneticPertCellularPhenotype, {
+
+      updateSelectizeInput(
+        inputId = "tissueCellularPhenotype",
+        choices = genetic_perturbations[["cell_phenotype"]][[input$geneticPertCellularPhenotype]][["tissue"]]
+      )
+    })
+    
+    cell_pert_img <- function(filename){
+      img <- readPNG(source = filename, native = T, info = T)
+      list(
+        src = filename,
+        contentType = 'image/png',
+        width = dim(img)[2]*0.4,
+        height = dim(img)[1]*0.4
+      )
+    }
+
+    overlay_img <- function(filename){
+      img <- readJPEG(source = filename, native = TRUE)
+      list(
+        src = filename,
+        contentType = 'image/jpg',
+        width = dim(img)[2]*0.3,
+        height = dim(img)[1]*0.3
+      )
+    }
+    
+    cell_phenotype_selected_files <- reactive({
+      genetic_perturbations[["cell_phenotype"]][[input$geneticPertCellularPhenotype]] |>
+      dplyr::filter(tissue == input$tissueCellularPhenotype)
+    })
+    
+    cell_phenotype_tsne_file <- reactive(
+      dplyr::pull(cell_phenotype_selected_files(), tsne)
+    )
+    
+    cell_phenotype_hist_file <- reactive(
+      dplyr::pull(cell_phenotype_selected_files(), hist)
+    )
+    
+    output$cell_phenotype_tSNE <- renderImage(
+      expr = cell_pert_img(cell_phenotype_tsne_file()), deleteFile = FALSE
+    )
+    
+    output$cell_phenotype_hist <- renderImage(
+      expr = cell_pert_img(cell_phenotype_hist_file()), deleteFile = FALSE
+    )
+    
+
+    ### download genetic perturbation ----
+    
+    ## download heatmaps ----
+    
+    output$DownloadCellularPhenotype <- downloadHandler(
+      
+      filename = function() {
+        paste0("Cellular_phenotype_", input$geneticPertCellularPhenotype, "_", input$tissueCellularPhenotype, ".zip")
+      },
+      content = function(file){
+        
+        zip(
+          zipfile = file,
+          files = c(cell_phenotype_tsne_file(), cell_phenotype_hist_file()),
+          flags = "-j"
+        )
+      }, contentType = "application/zip"
+    )
+    
+    ## marker expression ----
+    
+    ## markers ----
+    
+    observeEvent(input$geneticPertMarker, {
+      
+      updateSelectizeInput(
+        inputId = "marker",
+        choices = as.list(genetic_perturbations[["marker_expression"]][[input$geneticPertMarker]][["markers"]])
+      )
+    })
+    
+    
+    output$marker_overlay <- renderImage(
+      expr = overlay_img(marker_overlay_file()), deleteFile = FALSE
+    )
+
+    output$marker_heatmap <- renderImage(
+      expr = cell_pert_img(marker_heatmap_file()), deleteFile = FALSE
+    )
+    
+    marker_heatmap_file <- reactive({
+      genetic_perturbations[["marker_expression"]][[input$geneticPertMarker]][["heatmap"]]
+    })
+    
+    marker_overlay_file <- reactive({
+      input$marker
+    })
+    
 
     # display PCA, t-SNE and UMAP plots ----
     observeEvent(input$TriplePlot, {
