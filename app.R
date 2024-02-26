@@ -268,7 +268,7 @@
     
     # App title ----
     titlePanel("The Tissue Treg Project"),
-    actionButton("browser", "browser"),
+   # actionButton("browser", "browser"),
     
     tabsetPanel(
       
@@ -426,7 +426,7 @@
                  value = "BulkDiffExprs",
                  
                  br(),              ### browser button ----
-                 actionButton("browser", "browser"),
+                 #actionButton("browser", "browser"),
                  
                  fluidRow(
                    
@@ -2026,19 +2026,19 @@
     ## Generate contrasts event ----
     observeEvent(input$GenContrasts, {
       
-      cat("observed event - input$GenContrasts...")
+      #cat("observed event - input$GenContrasts...")
       
-      # shinyalert(title = "Computing contrasts,\nplease wait...",
-      #            text = paste0("The contrasts may take some time to compute.\n",
-      #                          "The results will populate the tab once ready."),
-      #            type = "info",
-      #            animation = F, #"slide-from-bottom",
-      #            inputId = "AlertFirstRunDone",
-      #            showCancelButton = FALSE,
-      #            showConfirmButton = FALSE,
-      #            closeOnEsc = FALSE,
-      #            closeOnClickOutside = FALSE)
-      
+      shinyalert(title = "Computing contrasts,\nplease wait...",
+                 text = paste0("The contrasts may take some time to compute.\n",
+                               "The results will populate the tab once ready."),
+                 type = "info",
+                 animation = F, #"slide-from-bottom",
+                 inputId = "AlertFirstRunDone",
+                 showCancelButton = FALSE,
+                 showConfirmButton = FALSE,
+                 closeOnEsc = FALSE,
+                 closeOnClickOutside = FALSE)
+
       
       
       
@@ -2086,8 +2086,8 @@
       #print(class(result[[2]]))
       #global_data$result <- result
       
-      cat("got the result...")
-      print(head(result))
+      #cat("got the result...")
+      #print(head(result))
       
       
       #filtering results for only genes for which actual logFC exists
@@ -2195,7 +2195,7 @@
         
       }
       
-      cat("got all the way down here to line 2274...")
+     # cat("got all the way down here to line 2274...")
       
       
       #checking if a contrast was generated to create the volcano plot
@@ -2253,6 +2253,7 @@
       
       #remove popup shinyalert from earlier using second alert with immediate 
       # set to TRUE
+      closeAlert()
       #closeAlert(id="AlertFirstRunDone")
       # shinyalert(title = "Computation Complete", 
       #            text = paste0("Results are being populated"), 
@@ -2749,8 +2750,6 @@
         height = dim(img)[1]*0.4
       )
     }
-    
-    observeEvent(input$browser, browser())
     
     # aging tSNE plots ----
     observeEvent(input$agingTSNEtissue, {
