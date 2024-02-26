@@ -1,0 +1,20 @@
+Dataset	Figure	Blood exclusion	Animalium	Cytometer	FlowRepository ID
+Tissue screen	Figure 1A-G, Supplementary Figure 1,Supplementary Figure 4	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6ME
+Nur77	Figure 1H,I	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6L8
+Ageing	Figure 2A-D, Supplementary Figure 5	Perfusion	Leuven, Babraham Institute	Symphony	http://flowrepository.org/id/FR-FCM-Z6L9
+Microbiome	Figure 2E-I, Supplementary Figure 5	Perfusion	Leuven	Symphony	http://flowrepository.org/id/FR-FCM-Z6LT
+CD69 KO chimera	Figure 4, Supplementary Figure 6	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6MF
+ST2 KO chimera	Figure 4, Supplementary Figure 7	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6MK
+CD11a KO chimera	Figure 4, Supplementary Figure 8	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6ML
+KLRG1 KO chimera	Figure 4, Supplementary Figure 9	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6MJ
+CD4Cre Blimp1fl/fl chimera	Figure 4, Supplementary Figure 10	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6MW
+S1PR2 chimera	Figure 4, Supplementary Figure 11	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6MH
+BATF KO chimera	Figure 4, Supplementary Figure 12	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6MM
+CD4Cre Hif1afl/fl chimera	Figure 4, Supplementary Figure 13	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6MN 
+Areg KO	Figure 4, Supplementary Figure 14	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6MS
+CD103 KO	Figure 4, Supplementary Figure 15	Perfusion	Leuven	Symphony	http://flowrepository.org/id/FR-FCM-Z6MR
+Parabiosis	Figure 5, Supplementary Figures 17, 18	Perfusion	Leuven	Symphony	http://flowrepository.org/id/FR-FCM-Z5UV
+Female:male parabiosis	Figure 8A-B	Perfusion	Leuven	Symphony	http://flowrepository.org/id/FR-FCM-Z6MQ
+i.v. CD45 labeling	Supplementary Figure 2	i.v. CD45 and perfusion	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6MX
+Foxp3ERT2Cre CD69fl/fl	Supplementary Figure 16	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6MG
+Klrg1Cre RosaAi14 fate mapper	Supplementary Figure 19	i.v. CD45	Babraham Institute	Aurora	http://flowrepository.org/id/FR-FCM-Z6MP

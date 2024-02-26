@@ -39,6 +39,7 @@
   {
     #deseq2 object
     DESeq_object <- readRDS(file = "data/DESeq_Object.rds")
+    flow_data_ids <- readRDS(file = "data/flow_data_ids.rds")
     
     #formatting names for available contrasts
     results_names <- resultsNames(DESeq_object)
@@ -96,18 +97,6 @@
                                    x =  names(results_names), 
                                    ignore.case = T)
     }
-    
-    ## flow repository IDs ----
-    
-    FlowRepID <- c(
-      '<a href="http://flowrepository.org/id/FR-FCM-Z6L9" target="_blank">FR-FCM-Z6L9</a>',
-      '<a href="http://flowrepository.org/id/FR-FCM-Z6LT" target="_blank">FR-FCM-Z6LT</a>'
-    )
-    
-    flow_data_ids <- tibble::tibble(
-      Dataset = c("Ageing", "Microbiome"), 
-      `FlowRepository ID` = FlowRepID
-    )
     
     ## tSNE info text ----
     tSNSE_info_text <- paste0(
@@ -289,57 +278,55 @@
             .noWS = c("after-begin", "before-end")
           ),
           hr(),
-          column(
-            width = 6,
-            h4("Flow cytometry data are available for download on FlowRepository using the details below."),
-            DT::datatable(
-              flow_data_ids,
-              escape   = FALSE,
-              rownames = FALSE, 
-              options  = list(dom = "t")
-            )
-          ), 
-          column(
-            width = 4, offset = 2,
-            wellPanel(
-              h4("Supplementary material for download"),
-              
-              h5("Bulk RNA-seq analysis"),
-              
-               withTags(
-                ul(
-                  li(downloadLink(
-                    outputId = "MultiQCBulk", 
-                    label = "QC and pre-processing report"
-                  )),
-                  li(downloadLink(
-                    outputId = "GlobalBulk", 
-                    label = "PCA, t-SNE and UMAP plots"
-                  )),
-                  li(downloadLink(
-                    outputId = "DiffExprsBulk", 
-                    label = paste0("Counts and differential ", 
-                                   "expression results")
-                  )),
-                  li(downloadLink(
-                    outputId = "GSEABulk", 
-                    label = "Gene set enrichment results"
-                  ))
+          fluidRow(
+            column(
+              width = 7,
+              h4("Flow cytometry data are available for download on FlowRepository using the details below."),
+              DT::datatable(
+                flow_data_ids,
+                escape   = FALSE,
+                rownames = FALSE, 
+                options  = list(dom = "t", pageLength=20)
+              )
+            ), 
+            column(
+              width = 4, offset = 1,
+              wellPanel(
+                h4("Supplementary material for download"),
+                
+                h5("Bulk RNA-seq analysis"),
+                
+                 withTags(
+                  ul(
+                    li(downloadLink(
+                      outputId = "MultiQCBulk", 
+                      label = "QC and pre-processing report"
+                    )),
+                    li(downloadLink(
+                      outputId = "GlobalBulk", 
+                      label = "PCA, t-SNE and UMAP plots"
+                    )),
+                    li(downloadLink(
+                      outputId = "DiffExprsBulk", 
+                      label = paste0("Counts and differential ", 
+                                     "expression results")
+                    )),
+                    li(downloadLink(
+                      outputId = "GSEABulk", 
+                      label = "Gene set enrichment results"
+                    ))
+                  )
                 )
               )
             )
-          ),
-          
+          ),  
           br(),
           br(),
-          br(),
-          br(),
-          br(),
-          
+
           ## footer text ----
           fluidRow(
             h6(
-              style="padding:10px;", 
+              style="padding:20px;", 
               HTML(
                 "Funded by the European Union (ERC, TissueTreg, 681373)
                  and Wellcome Trust (Brain CD4 T cells and their influence 
