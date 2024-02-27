@@ -264,7 +264,7 @@
     
     # App title ----
     titlePanel("The Tissue Treg Project"),
-   # actionButton("browser", "browser"),
+    #actionButton("browser", "browser"),
     
     tabsetPanel(
       
@@ -1276,16 +1276,16 @@
                   offset = 1,
                   br(),
                   downloadButton(
-                    outputId = "DownloadMarker", # this doesn't do anything yet
-                    label = "Selected Marker"
+                    outputId = "DownloadMarker", 
+                    label = "Selected Option"
                   )
                 ),
                 column(
                   width = 2,
                   br(),
                   downloadButton(
-                    outputId = "DownloadMarkerAll", # this doesn't do anything yet
-                    label = "All Markers"
+                    outputId = "DownloadMarkerAll",
+                    label = "All Data"
                   )
                 )
               ),
@@ -2764,8 +2764,6 @@
 
     ### download genetic perturbation ----
     
-    ## download heatmaps ----
-    
     output$DownloadCellularPhenotype <- downloadHandler(
       
       filename = function() {
@@ -2780,6 +2778,44 @@
         )
       }, contentType = "application/zip"
     )
+    
+    #### download all genetic_perturbation ----
+    
+    output$DownloadCellularPhenotypeAll <- downloadHandler(
+      
+      filename = function() ("Genetic_perturbation_all.zip"),
+      content = function(file){
+        file.copy("www/Genetic_Perturbation.zip", file, copy.mode = F)
+      }, contentType = "application/zip"
+    )
+    
+    # duplicating this as we've got 2 separate buttons for download all
+    
+    output$DownloadMarkerAll <- downloadHandler(
+      
+      filename = function() ("Genetic_perturbation_all.zip"),
+      content = function(file){
+        file.copy("www/Genetic_Perturbation.zip", file, copy.mode = F)
+      }, contentType = "application/zip"
+    )
+    
+    ### download marker expression ----
+    
+    output$DownloadMarker <- downloadHandler(
+      
+      filename = function() {
+        paste0("Marker_expression_", input$geneticPertMarker, "_", marker_name(), ".zip")
+      },
+      content = function(file){
+        
+        zip(
+          zipfile = file,
+          files = c(marker_heatmap_file(), marker_overlay_file()),
+          flags = "-j"
+        )
+      }, contentType = "application/zip"
+    )
+    
     
     ## marker expression ----
     
@@ -2808,6 +2844,11 @@
     
     marker_overlay_file <- reactive({
       input$marker
+    })
+    
+    marker_name <- reactive({
+      selected <- which(genetic_perturbations[["marker_expression"]][[input$geneticPertMarker]][["markers"]] == input$marker)
+      names(selected)
     })
     
 
